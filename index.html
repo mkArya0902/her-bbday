@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+html{
+  scroll-behavior:smooth;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI",sans-serif;
+}
+
+body{
+  background:linear-gradient(120deg,#ff9a9e,#fad0c4);
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* soft animated overlay */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:linear-gradient(120deg,#fbc2eb,#a6c1ee);
+  opacity:.35;
+  z-index:-1;
+  animation:slowMove 15s ease-in-out infinite;
+}
+
+@keyframes slowMove{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.1);}
+}
+
+/* pages */
+.section{
+  min-height:100vh;
+  padding:60px 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.hidden{display:none;}
+
+/* text */
+h1{font-size:2.4rem;margin-bottom:10px;}
+h2{font-weight:400;}
+
+p{
+  font-size:1.1rem;
+  line-height:1.6;
+}
+
+/* inputs */
+input{
+  margin-top:20px;
+  padding:14px;
+  border:none;
+  border-radius:30px;
+  text-align:center;
+  font-size:16px;
+}
+
+button{
+  margin-top:20px;
+  padding:12px 30px;
+  border:none;
+  border-radius:30px;
+  background:#fff;
+  color:#ff5f7e;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* fade reveal */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:1.2s ease;
+}
+
+.reveal.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* heart */
+.heart{
+  font-size:3.5rem;
+  margin:20px 0;
+  animation:beat 1.2s infinite;
+}
+
+@keyframes beat{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.25);}
+}
+
+/* letter */
+.letter{
+  max-width:520px;
+  margin-top:30px;
+  padding:25px;
+  border-radius:25px;
+  background:rgba(255,255,255,.25);
+  backdrop-filter:blur(6px);
+}
+
+/* timer */
+.timer{
+  margin-top:30px;
+  padding:15px 25px;
+  border-radius:25px;
+  background:rgba(255,255,255,.25);
+}
+
+/* scroll indicator */
+.scroll-down{
+  position:absolute;
+  bottom:20px;
+  font-size:0.9rem;
+  opacity:.8;
+  animation:bounce 1.5s infinite;
+}
+
+@keyframes bounce{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(8px);}
+}
+
+/* floating dots */
+.dot{
+  position:fixed;
+  bottom:-10px;
+  width:6px;
+  height:6px;
+  background:white;
+  border-radius:50%;
+  opacity:.6;
+  animation:float 8s linear infinite;
+}
+
+@keyframes float{
+  from{transform:translateY(0);}
+  to{transform:translateY(-120vh);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔐 LOCK -->
+<section id="lock" class="section">
+  <h2>Before you enter…</h2>
+  <h1>Only one date matters ❤️</h1>
+  <input type="password" id="password" placeholder="DD/MM/YYYY">
+  <button onclick="unlock()">Enter</button>
+  <p id="hint"></p>
+</section>
+
+<!-- 🌸 SECTION 1 -->
+<section id="s1" class="section hidden">
+  <h1 class="reveal">Happy Birthday Jaan 💫</h1>
+  <div class="heart reveal">❤️</div>
+  <p class="reveal">
+    This page isn’t loud. <br>
+    Some feelings don’t need music.
+  </p>
+  <div class="scroll-down">scroll ↓</div>
+</section>
+
+<!-- 💌 SECTION 2 -->
+<section class="section">
+  <div class="letter reveal">
+    <p>
+      Since <b>26 January 2022</b>,<br>
+      life hasn’t been perfect…<br>
+      but it has been real — because of you.
+      <br><br>
+      Thank you for staying,<br>
+      even on days when it wasn’t easy.
+    </p>
+  </div>
+</section>
+
+<!-- 💖 SECTION 3 -->
+<section class="section">
+  <div class="letter reveal">
+    <p>
+      26/01/2022 se ek kahani shuru hui thi,<br>
+      Aaj bhi wahi kahani meri duniya hai.<br><br>
+      Tum ho toh sab hai,<br>
+      tum na ho toh kuch bhi nahi.<br><br>
+      Happy Birthday,<br>
+      my forever 💫
+    </p>
+  </div>
+</section>
+
+<!-- ⏳ SECTION 4 -->
+<section class="section">
+  <div class="timer reveal">
+    <p id="timeTogether"></p>
+  </div>
+</section>
+<!-- 🤍 THANK YOU SECTION -->
+<section class="section">
+  <div class="letter reveal">
+    <p>
+      And before this page ends…<br><br>
+
+      Thank you.<br>
+      For choosing me.<br>
+      For staying.<br>
+      For understanding my silence<br>
+      and holding my hand in chaos.<br><br>
+
+      This wasn’t just a birthday page,<br>
+      this was my way of saying —<br>
+      *I’m grateful for you… always.*<br><br>
+
+      Happy Birthday 🤍
+    </p>
+  </div>
+</section>
+
+
+<script>
+const correctPassword="26/01/2022";
+const startDate=new Date("2022-01-26T00:00:00");
+
+function unlock(){
+  if(password.value===correctPassword){
+    lock.classList.add("hidden");
+    s1.classList.remove("hidden");
+    startTimer();
+    dots();
+  }else{
+    hint.innerText="You know this date ❤️";
+  }
+}
+
+/* timer */
+function startTimer(){
+  setInterval(()=>{
+    let diff=new Date()-startDate;
+    let d=Math.floor(diff/86400000);
+    let h=Math.floor(diff/3600000)%24;
+    let m=Math.floor(diff/60000)%60;
+    let s=Math.floor(diff/1000)%60;
+    timeTogether.innerText=
+      `We’ve shared ${d} days ${h} hrs ${m} min ${s} sec together ❤️`;
+  },1000);
+}
+
+/* reveal on scroll */
+window.addEventListener("scroll",()=>{
+  document.querySelectorAll(".reveal").forEach(el=>{
+    const top=el.getBoundingClientRect().top;
+    if(top<window.innerHeight-80){
+      el.classList.add("show");
+    }
+  });
+});
+
+/* floating dots */
+function dots(){
+  setInterval(()=>{
+    let d=document.createElement("div");
+    d.className="dot";
+    d.style.left=Math.random()*100+"vw";
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(),8000);
+  },500);
+}
+</script>
+
+</body>
+</html>
